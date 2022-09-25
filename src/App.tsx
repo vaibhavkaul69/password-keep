@@ -1,24 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { getPasswordDetailsFromLocalStorage, setPasswordDetailsToLocalStorage } from './common/utils';
+import AddPasswordDetailsButton from './components/AddPasswordDetailsButton';
+import Header from './components/Header';
+import PasswordDetailsBody from './components/PasswordDetailsBody';
+import PasswordDetailsInput from './components/PasswordDetailsInput';
+import { IPasswordDetailsPayload } from './types';
 
 function App() {
+  const [isPasswordDetailFillFormOpen, openPasswordDetailFillForm] = useState<boolean>(false);
+  const [passwordDetails, setPasswordDetails] = useState<IPasswordDetailsPayload | null>(null);
+  const [allSavedPasswords, setAllSavedPasswords] = useState<Array<IPasswordDetailsPayload>>([]);
+
+  useEffect(() => {
+    const details = getPasswordDetailsFromLocalStorage();
+    if (details && details.length > 0) {
+      setAllSavedPasswords(details);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (passwordDetails) {
+      setPasswordDetailsToLocalStorage(passwordDetails);
+      const newPasswordDetailsArray = [...allSavedPasswords, passwordDetails];
+      setAllSavedPasswords(newPasswordDetailsArray);
+    }
+  }, [passwordDetails]);
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="app-body">
+        <Header />
+        <AddPasswordDetailsButton openPasswordDetailFillForm={openPasswordDetailFillForm} isPasswordDetailFillFormOpen={isPasswordDetailFillFormOpen} />
+        {isPasswordDetailFillFormOpen && <PasswordDetailsInput setPasswordDetails={setPasswordDetails} />}
+        {allSavedPasswords && allSavedPasswords.length > 0 && <PasswordDetailsBody allSavedPasswords={allSavedPasswords} />}
+      </div>
     </div>
   );
 }

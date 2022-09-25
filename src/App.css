@@ -1,38 +1,179 @@
+:root {
+  --theme-black: #000000;
+  --theme-grey: #222121;
+  --theme-white: #ffffff;
+  --theme-blue: #085078;
+  --theme-lightGrey: #616161;
+}
+
+.uppercase {
+  text-transform: capitalize;
+}
+
+button,
+input,
+select {
+  outline: none;
+}
+
+label,
+input,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
+  width: 100%;
+  background: var(--theme-black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-body {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 600px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Header */
+.header {
+  font: 900 40px 'Roboto', sans-serif;
+  margin: 0px;
+  letter-spacing: 2px;
+  color: var(--theme-white);
+}
+
+.line-under-heading {
+  width: 150px;
+  display: block;
+  height: 2px;
+  background: var(--theme-lightGrey);
+  border-radius: 5px;
+  margin: 10px auto;
+}
+
+.add-password-details-buttons {
+  font: 400 16px 'Roboto', sans-serif;
+  margin: 20px auto;
+  color: var(--theme-white);
+  background: var(--theme-grey);
+  transition: all 0.5s ease-in-out;
+  height: 50px;
+  width: 250px;
+  border-radius: 5px;
+  border: 1px solid var(--theme-lightGrey);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-details-icon {
+  margin: 0px 8px;
+}
+
+.add-password-details-buttons:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+/* Password Details Input Container */
+.password-details-input-container {
+  background: var(--theme-grey);
+  border: 1px solid var(--theme-lightGrey);
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 15px;
+  border-radius: 10px;
+}
+
+.password-details-input-label {
+  color: var(--theme-white);
+  font-size: 15px;
+  margin-top: 20px;
+  font-weight: 900;
+  margin-bottom: 5px;
+}
+
+.password-details-input {
+  border: 1px solid var(--theme-lightGrey);
+  width: 95%;
+  height: 35px;
+  border-radius: 5px;
+  padding: 0px 5px;
+  letter-spacing: 2px;
+}
+
+.password-details-input-and-eye-toggler-container {
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.toggle-eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  height: 20px;
+  background: var(--theme-white);
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+
+.toggle-eye-icon:hover {
+  opacity: 0.7;
+}
+
+.password-details-submit-btn {
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+  margin: 30px 0px 0px 0px;
+  background-color: var(--theme-lightGrey);
+  opacity: 0.8;
+  color: var(--theme-white);
+  font: 400 17px 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+
+.password-details-submit-btn:hover {
+  opacity: 0.6;
+}
+
+/* Password Details Body */
+.password-details-body-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  width: 500px;
+  margin: 30px 0px;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.password-details-body-thumbnail {
+  min-height: 60px;
+  width: 90%;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 15px 3px rgb(255 255 255 / 10%);
+  margin: 10px 0px;
+  background: var(--theme-grey);
 }
