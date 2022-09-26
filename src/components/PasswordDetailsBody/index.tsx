@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../App.css';
-import { AccountToIconMap } from '../../common/constants';
+import { baseUrlForIcon, fileExtension } from '../../common/constants';
 import { IPasswordDetailsBody } from '../../types';
 
 const PasswordDetailsBody: React.FC<IPasswordDetailsBody> = ({ allSavedPasswords }) => {
@@ -9,7 +9,7 @@ const PasswordDetailsBody: React.FC<IPasswordDetailsBody> = ({ allSavedPasswords
         {allSavedPasswords.map(passwordDetail => {
             return <div key={passwordDetail.password} className="password-details-body-thumbnail">
                 <div className="">
-                    <img src={AccountToIconMap[passwordDetail.accountType]} />
+                    <img src={baseUrlForIcon + passwordDetail.accountType.toLowerCase() + fileExtension} />
                     <p className="">{passwordDetail.accountType}</p>
                 </div>
             </div>
