@@ -29,22 +29,24 @@ const PasswordDetailsInput: React.FC<IPasswordDetailsInput> = ({ setPasswordDeta
 
     }
 
-    return <div className="password-details-input-container">
-        <label className="password-details-input-label" htmlFor="account_type">Account Type: </label>
-        <select ref={accountTypeRef} className="password-details-input">
-            {AccountTypesArray.map((type) => {
-                return <option key={type} value={type} defaultValue={type}>{type}</option>
-            })}
-        </select>
-        <label className="password-details-input-label" htmlFor="username">Username: </label>
-        <input ref={usernameRef} className="password-details-input" name="username" type="text" />
-        <label className="password-details-input-label" htmlFor="password">Password: </label>
-        <div className="password-details-input-and-eye-toggler-container">
-            <input ref={passwordRef} className="password-details-input" name="password" type={showPassword ? 'text' : 'password'} />
-            <ToggleEyeSwitch showPassword={showPassword} onToggleEyeClick={togglePassword} />
+    return (
+        <div className="password-details-input-container">
+            <label className="password-details-input-label" htmlFor="account_type">Account Type: </label>
+            <select ref={accountTypeRef} className="password-details-input">
+                {AccountTypesArray.map((type) => {
+                    return <option key={type} value={type} defaultValue={type}>{type}</option>
+                })}
+            </select>
+            <label className="password-details-input-label" htmlFor="username">Username: </label>
+            <input ref={usernameRef} className="password-details-input" name="username" type="text" />
+            <label className="password-details-input-label" htmlFor="password">Password: </label>
+            <div className="password-details-input-and-eye-toggler-container">
+                <input ref={passwordRef} className="password-details-input" name="password" type={showPassword ? 'text' : 'password'} />
+                <ToggleEyeSwitch showPassword={showPassword} onToggleEyeClick={togglePassword} />
+            </div>
+            <button onClick={submitData} className="password-details-submit-btn">SUBMIT</button>
         </div>
-        <button onClick={submitData} className="password-details-submit-btn">SUBMIT</button>
-    </div>
+    )
 }
 
 export default PasswordDetailsInput;

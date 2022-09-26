@@ -38,6 +38,6 @@ export const passwordDetailsStorageKeyName = `PASSWORD_KEEPER_V${version}`;
 
 export const keyToEncyptDecrypt = 'passwordKeeper';
 
-export const baseUrlForIcon = 'https://github.com/vaibhavkaul69/password-keep/blob/master/src/assets/';
+export const baseUrlForIcon = 'https://raw.githubusercontent.com/vaibhavkaul69/password-keep/master/src/assets/account_types_icons/';
 
 export const fileExtension = '.png';

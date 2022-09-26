@@ -23,7 +23,7 @@ export const setPasswordDetailsToLocalStorage = (payload: IPasswordDetailsPayloa
     const detailsFromStorage = getPasswordDetailsFromLocalStorage();
 
     if (payload) {
-        const payloadWithEncryptedPassword = payload;
+        const payloadWithEncryptedPassword = { ...payload };
         payloadWithEncryptedPassword.password = encryptPasswordString(payload.password);
 
         const dataToSet = [...detailsFromStorage, payloadWithEncryptedPassword]

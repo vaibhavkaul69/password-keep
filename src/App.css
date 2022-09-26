@@ -27,6 +27,7 @@ h6,
 p {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
+  margin: 0px;
 }
 
 .App {
@@ -128,7 +129,7 @@ p {
 
 .toggle-eye-icon {
   position: absolute;
-  right: 10px;
+  right: 15px;
   top: 8px;
   height: 20px;
   background: var(--theme-white);
@@ -146,16 +147,11 @@ p {
   border-radius: 5px;
   height: 40px;
   margin: 30px 0px 0px 0px;
-  background-color: var(--theme-lightGrey);
-  opacity: 0.8;
-  color: var(--theme-white);
+  background-color: var(--theme-white);
+  color: var(--theme-black);
   font: 400 17px 'Roboto', sans-serif;
   cursor: pointer;
   transition: all 0.5s ease-in-out;
-}
-
-.password-details-submit-btn:hover {
-  opacity: 0.6;
 }
 
 /* Password Details Body */
@@ -171,9 +167,61 @@ p {
 .password-details-body-thumbnail {
   min-height: 60px;
   width: 90%;
-  padding: 10px 20px;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 3px 3px 15px 3px rgb(255 255 255 / 10%);
   margin: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   background: var(--theme-grey);
+}
+
+.password-details-body-thumbnail__header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 2px solid var(--theme-lightGrey);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.password-details-body-thumbnail__icon {
+  height: 30px;
+}
+
+.password-details-body-thumbnail__heading {
+  color: var(--theme-white);
+  font-size: 20px;
+  margin: 0px 10px;
+}
+
+.password-details-body-thumbnail__body-content {
+  width: 100%;
+}
+
+.password-details-body-thumbnail__body-content-label {
+  color: var(--theme-white);
+  font-size: 20px;
+  font-weight: 400;
+  margin: 5px 0px;
+  display: block;
+}
+
+.password-details-body-thumbnail__body-content-input {
+  width: 95%;
+  border: 1px solid var(--theme-lightGrey);
+  height: 35px;
+  border-radius: 5px;
+  display: flex;
+  padding: 0px 5px;
+  letter-spacing: 2px;
+}
+
+@media all and (max-width:600px) {
+  .password-details-body-container {
+    width: 90%;
+  }
 }
