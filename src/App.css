@@ -54,6 +54,7 @@ p {
 .header {
   font: 900 40px 'Roboto', sans-serif;
   margin: 0px;
+  text-align: center;
   letter-spacing: 2px;
   color: var(--theme-white);
 }
@@ -242,5 +243,9 @@ p {
 @media all and (max-width:600px) {
   .password-details-body-container {
     width: 90%;
+  }
+
+  .header {
+    font: 900 30px 'Roboto', sans-serif;
   }
 }
