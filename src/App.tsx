@@ -34,7 +34,7 @@ function App() {
       <div className="app-body">
         <Header />
         <AddPasswordDetailsButton openPasswordDetailFillForm={openPasswordDetailFillForm} isPasswordDetailFillFormOpen={isPasswordDetailFillFormOpen} />
-        {isPasswordDetailFillFormOpen && <PasswordDetailsInput setPasswordDetails={setPasswordDetails} />}
+        {isPasswordDetailFillFormOpen && <PasswordDetailsInput openPasswordDetailFillForm={openPasswordDetailFillForm} setPasswordDetails={setPasswordDetails} />}
         {allSavedPasswords && allSavedPasswords.length > 0 && <PasswordDetailsBody allSavedPasswords={allSavedPasswords} />}
       </div>
     </div>

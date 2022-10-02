@@ -45,7 +45,7 @@ p {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 600px;
+  width: 95%;
   padding: 10px;
   border-radius: 10px;
 }
@@ -102,6 +102,17 @@ p {
   align-items: flex-start;
   padding: 20px 15px;
   border-radius: 10px;
+  position: relative;
+}
+
+.password-details-input-container__close-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  height: 30px;
+  background: #000;
+  border-radius: 100%;
+  cursor: pointer;
 }
 
 .password-details-input-label {
@@ -141,7 +152,8 @@ p {
   opacity: 0.7;
 }
 
-.password-details-submit-btn {
+.password-details-submit-btn,
+.password-details-submit-btn__disabled {
   width: 100%;
   border: none;
   border-radius: 5px;
@@ -154,23 +166,30 @@ p {
   transition: all 0.5s ease-in-out;
 }
 
+.password-details-submit-btn__disabled {
+  background-color: var(--theme-lightGrey);
+}
+
 /* Password Details Body */
 .password-details-body-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 500px;
+  width: 100%;
   margin: 30px 0px;
 }
 
+
+
 .password-details-body-thumbnail {
   min-height: 60px;
-  width: 90%;
+  width: 300px;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 3px 3px 15px 3px rgb(255 255 255 / 10%);
-  margin: 10px 0px;
+  margin: 15px 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -217,7 +236,7 @@ p {
   border-radius: 5px;
   display: flex;
   padding: 0px 5px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 @media all and (max-width:600px) {

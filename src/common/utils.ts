@@ -2,7 +2,7 @@ import Crypto from 'crypto-js';
 import { IPasswordDetailsPayload } from '../types';
 import { keyToEncyptDecrypt, passwordDetailsStorageKeyName } from './constants';
 
-export const getPasswordDetailsFromLocalStorage = (): Array<IPasswordDetailsPayload> => {
+export const getPasswordDetailsFromLocalStorage = (shouldDecryptPassword: boolean = true): Array<IPasswordDetailsPayload> => {
     let payloadToReturn = [];
 
     const getItemFromStorage = JSON.parse(localStorage.getItem(passwordDetailsStorageKeyName) as string);
@@ -11,7 +11,7 @@ export const getPasswordDetailsFromLocalStorage = (): Array<IPasswordDetailsPayl
             return {
                 accountType: item.accountType,
                 userName: item.userName,
-                password: decryptPasswordString(item.password)
+                password: shouldDecryptPassword ? decryptPasswordString(item.password) : item.password
             }
         })
     }
@@ -20,14 +20,12 @@ export const getPasswordDetailsFromLocalStorage = (): Array<IPasswordDetailsPayl
 }
 
 export const setPasswordDetailsToLocalStorage = (payload: IPasswordDetailsPayload) => {
-    const detailsFromStorage = getPasswordDetailsFromLocalStorage();
+    const detailsFromStorage = getPasswordDetailsFromLocalStorage(false);
 
     if (payload) {
-        const payloadWithEncryptedPassword = { ...payload };
-        payloadWithEncryptedPassword.password = encryptPasswordString(payload.password);
-
-        const dataToSet = [...detailsFromStorage, payloadWithEncryptedPassword]
-
+        const encyptedPasswordPayload = { ...payload };
+        encyptedPasswordPayload.password = encryptPasswordString(encyptedPasswordPayload.password);
+        const dataToSet = [...detailsFromStorage, encyptedPasswordPayload];
         const stringifiedPayload = JSON.stringify(dataToSet);
 
         return localStorage.setItem(passwordDetailsStorageKeyName, stringifiedPayload);

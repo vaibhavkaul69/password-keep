@@ -14,6 +14,7 @@ interface IAddPasswordDetailsButton {
 
 interface IPasswordDetailsInput {
     setPasswordDetails: Dispatch<SetStateAction<IPasswordDetailsPayload>> | null;
+    openPasswordDetailFillForm: Dispatch<SetStateAction<boolean>>;
 }
 
 
