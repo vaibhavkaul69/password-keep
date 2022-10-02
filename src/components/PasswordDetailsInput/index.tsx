@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import '../../App.css';
 import { AccountTypes, AccountTypesArray } from '../../common/constants';
 import { IPasswordDetailsInput } from '../../types';
-import ToggleEyeSwitch from '../ToggleButton';
 import CloseButtonIcon from '../../assets/close_icon.png';
+import { generateUniqueUUID } from '../../common/utils';
+import OpenEyeIcon from '../../assets/open_eye_icon.png';
+import CloseEyeIcon from '../../assets/close_eye_icon.png';
 
 const PasswordDetailsInput: React.FC<IPasswordDetailsInput> = ({ setPasswordDetails, openPasswordDetailFillForm }) => {
     const [accountType, setAccountType] = useState<string | null>(null);
@@ -16,7 +18,8 @@ const PasswordDetailsInput: React.FC<IPasswordDetailsInput> = ({ setPasswordDeta
             const payload = {
                 accountType: accountType as AccountTypes,
                 userName: userName,
-                password: password
+                password: password,
+                id: generateUniqueUUID()
             }
             setPasswordDetails && setPasswordDetails(payload);
             setAccountType('');
@@ -28,7 +31,7 @@ const PasswordDetailsInput: React.FC<IPasswordDetailsInput> = ({ setPasswordDeta
 
     return (
         <div className="password-details-input-container">
-            <img onClick={() => openPasswordDetailFillForm(false)} src={CloseButtonIcon} className="password-details-input-container__close-button" />
+            <img alt="Close Button" onClick={() => openPasswordDetailFillForm(false)} src={CloseButtonIcon} className="password-details-input-container__close-button" />
             <label className="password-details-input-label" htmlFor="account_type">Account Type: </label>
             <select onChange={(e) => setAccountType(e.target.value)} value={accountType as string} className="password-details-input">
                 {AccountTypesArray.map((type) => {
@@ -40,7 +43,12 @@ const PasswordDetailsInput: React.FC<IPasswordDetailsInput> = ({ setPasswordDeta
             <label className="password-details-input-label" htmlFor="password">Password: </label>
             <div className="password-details-input-and-eye-toggler-container">
                 <input onChange={(e) => setPassword(e.target.value)} value={password as string} className="password-details-input" name="password" type={showPassword ? 'text' : 'password'} />
-                <ToggleEyeSwitch showPassword={showPassword} onToggleEyeClick={togglePassword} />
+                <img
+                    alt="Toggle Password Icon"
+                    onClick={() => togglePassword(!showPassword)}
+                    src={showPassword ? OpenEyeIcon : CloseEyeIcon}
+                    className="toggle-eye-icon"
+                />
             </div>
             <button onClick={submitData} className={password ? 'password-details-submit-btn' : 'password-details-submit-btn__disabled'}>SUBMIT</button>
         </div>

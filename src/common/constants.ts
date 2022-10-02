@@ -1,6 +1,3 @@
-
-import none from '../assets/none.png';
-
 export type AccountTypes =
     'FACEBOOK' |
     'INSTAGRAM' |
@@ -38,6 +35,6 @@ export const passwordDetailsStorageKeyName = `PASSWORD_KEEPER_V${version}`;
 
 export const keyToEncyptDecrypt = 'passwordKeeper';
 
-export const baseUrlForIcon = 'https://raw.githubusercontent.com/vaibhavkaul69/password-keep/master/src/assets/account_types_icons/';
+export const storageErrorMessage = 'Sorry, your browser does not allow permission to use local-storage. Please try with a different browser.!';
 
-export const fileExtension = '.png';
+export const pdfFileName = 'Password-Keep_Passwords.pdf'

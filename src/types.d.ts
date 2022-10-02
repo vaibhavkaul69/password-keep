@@ -5,6 +5,7 @@ interface IPasswordDetailsPayload {
     accountType: AccountTypes,
     userName: string;
     password: string;
+    id: string;
 }
 
 interface IAddPasswordDetailsButton {

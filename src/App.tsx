@@ -5,6 +5,7 @@ import AddPasswordDetailsButton from './components/AddPasswordDetailsButton';
 import Header from './components/Header';
 import PasswordDetailsBody from './components/PasswordDetailsBody';
 import PasswordDetailsInput from './components/PasswordDetailsInput';
+import PasswordDetailsToPDF from './components/PdfDownloadComponent';
 import { IPasswordDetailsPayload } from './types';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
     <div className="App">
       <div className="app-body">
         <Header />
+        <PasswordDetailsToPDF />
         <AddPasswordDetailsButton openPasswordDetailFillForm={openPasswordDetailFillForm} isPasswordDetailFillFormOpen={isPasswordDetailFillFormOpen} />
         {isPasswordDetailFillFormOpen && <PasswordDetailsInput openPasswordDetailFillForm={openPasswordDetailFillForm} setPasswordDetails={setPasswordDetails} />}
         {allSavedPasswords && allSavedPasswords.length > 0 && <PasswordDetailsBody allSavedPasswords={allSavedPasswords} />}

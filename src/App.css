@@ -53,11 +53,38 @@ p {
 /* Header */
 .header {
   font: 900 40px 'Roboto', sans-serif;
-  margin: 0px;
+  margin-top: 20px;
   text-align: center;
   letter-spacing: 2px;
   color: var(--theme-white);
 }
+
+.download-pdf-button {
+  margin: 5px auto;
+  font-size: 18px;
+  background-color: var(--theme-white);
+  color: var(--theme-grey);
+  transition: all 0.5s ease-in-out;
+  height: 50px;
+  width: 250px;
+  border-radius: 5px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transform: scale(0.9);
+}
+
+.download-pdf-button>img {
+  height: 30px;
+  margin: 0px 10px;
+}
+
+/* .download-pdf-button:hover {
+  transform: scale(1);
+} */
+
 
 .line-under-heading {
   width: 150px;
@@ -70,7 +97,7 @@ p {
 
 .add-password-details-buttons {
   font: 400 16px 'Roboto', sans-serif;
-  margin: 20px auto;
+  margin: 10px auto;
   color: var(--theme-white);
   background: var(--theme-grey);
   transition: all 0.5s ease-in-out;
@@ -81,15 +108,17 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  transform: scale(0.9);
 }
 
 .add-details-icon {
   margin: 0px 8px;
 }
 
-.add-password-details-buttons:hover {
-  opacity: 0.9;
-  cursor: pointer;
+.add-password-details-buttons:hover,
+.download-pdf-button:hover {
+  transform: scale(1);
 }
 
 /* Password Details Input Container */
@@ -239,6 +268,7 @@ p {
   padding: 0px 5px;
   letter-spacing: 1px;
 }
+
 
 @media all and (max-width:600px) {
   .password-details-body-container {
