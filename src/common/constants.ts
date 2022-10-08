@@ -38,3 +38,10 @@ export const keyToEncyptDecrypt = 'passwordKeeper';
 export const storageErrorMessage = 'Sorry, your browser does not allow permission to use local-storage. Please try with a different browser.!';
 
 export const pdfFileName = 'Password-Keep_Passwords.pdf'
+
+export const dispatcherTypes = {
+    openAuthModal: 'OPEN_AUTH_MODAL',
+    closeAuthModal: 'CLOSE_AUTH_MODAL',
+    isUserAuthenticated: 'USER_AUTHETICATION',
+    authenticationPassword: 'AUTHENTICATION_PASSWORD'
+}
