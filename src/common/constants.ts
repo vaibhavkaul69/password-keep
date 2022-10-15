@@ -45,3 +45,7 @@ export const dispatcherTypes = {
     isUserAuthenticated: 'USER_AUTHETICATION',
     authenticationPassword: 'AUTHENTICATION_PASSWORD'
 }
+
+export type EyeIconColor = 'BLACK' | 'WHITE';
+
+export type WhatDetailsToGetType = 'PASSWORD_DETAILS' | 'USER_LOGIN_DETAILS';

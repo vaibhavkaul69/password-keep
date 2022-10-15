@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
-import { getPasswordDetailsFromLocalStorage, setPasswordDetailsToLocalStorage } from './common/utils';
+import { getDetailsFromLocalStorage, setDetailsToLocalStorage } from './common/utils';
 import AddPasswordDetailsButton from './components/AddPasswordDetailsButton';
 import AuthModal from './components/AuthModal';
 import Header from './components/Header';
 import PasswordDetailsBody from './components/PasswordDetailsBody';
 import PasswordDetailsInput from './components/PasswordDetailsInput';
 import PasswordDetailsToPDF from './components/PdfDownloadComponent';
-import { action_openUserAuthenticationModal } from './redux/actions';
+import { action_openUserAuthenticationModal, action_setAuthenticationPassword } from './redux/actions';
 import { IPasswordDetailsPayload } from './types';
 
 function App() {
@@ -21,15 +21,19 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const detailsFromStorage = getDetailsFromLocalStorage(true);
+    if (detailsFromStorage?.userDetails) {
+      dispatch(action_setAuthenticationPassword((detailsFromStorage?.userDetails.secretPin)));
+    }
     dispatch(action_openUserAuthenticationModal());
-
   }, []);
 
   useEffect(() => {
     if (isUserAuthenticated) {
-      const details = getPasswordDetailsFromLocalStorage();
-      if (details && details.length > 0) {
-        setAllSavedPasswords(details);
+      const detailsFromStorage = getDetailsFromLocalStorage(true);
+      const passwordDetails = detailsFromStorage?.passwordDetails;
+      if (passwordDetails && passwordDetails.length > 0) {
+        setAllSavedPasswords(passwordDetails);
       }
     } else {
       setAllSavedPasswords([]);
@@ -38,7 +42,7 @@ function App() {
 
   useEffect(() => {
     if (passwordDetails) {
-      setPasswordDetailsToLocalStorage(passwordDetails);
+      setDetailsToLocalStorage({ newPasswordPayload: passwordDetails, userSecretPin: null });
       const newPasswordDetailsArray = [...allSavedPasswords, passwordDetails];
       setAllSavedPasswords(newPasswordDetailsArray);
     }
@@ -52,9 +56,9 @@ function App() {
         <Header />
         <PasswordDetailsToPDF />
         <AddPasswordDetailsButton openPasswordDetailFillForm={openPasswordDetailFillForm} isPasswordDetailFillFormOpen={isPasswordDetailFillFormOpen} />
-        {isPasswordDetailFillFormOpen && <PasswordDetailsInput openPasswordDetailFillForm={openPasswordDetailFillForm} setPasswordDetails={setPasswordDetails} />}
-        {allSavedPasswords && allSavedPasswords.length > 0 && <PasswordDetailsBody allSavedPasswords={allSavedPasswords} />}
-        <AuthModal />
+        {isPasswordDetailFillFormOpen ? <PasswordDetailsInput openPasswordDetailFillForm={openPasswordDetailFillForm} setPasswordDetails={setPasswordDetails} /> : <></>}
+        {allSavedPasswords && allSavedPasswords.length > 0 ? <PasswordDetailsBody allSavedPasswords={allSavedPasswords} /> : <></>}
+        {isUserAuthenticated === false ? <AuthModal /> : <></>}
       </div>
     </div>
   );

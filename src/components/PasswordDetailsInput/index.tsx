@@ -4,14 +4,12 @@ import { AccountTypes, AccountTypesArray } from '../../common/constants';
 import { IPasswordDetailsInput } from '../../types';
 import CloseButtonIcon from '../../assets/close_icon.png';
 import { generateUniqueUUID } from '../../common/utils';
-import OpenEyeIcon from '../../assets/open_eye_icon.png';
-import CloseEyeIcon from '../../assets/close_eye_icon.png';
+import PasswordInputWithEye from '../TogglePasswordEyeInput';
 
 const PasswordDetailsInput: React.FC<IPasswordDetailsInput> = ({ setPasswordDetails, openPasswordDetailFillForm }) => {
     const [accountType, setAccountType] = useState<string | null>(null);
     const [userName, setUsername] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
-    const [showPassword, togglePassword] = useState<boolean>(false);
 
     const submitData = () => {
         if (accountType && userName && password) {
@@ -42,13 +40,7 @@ const PasswordDetailsInput: React.FC<IPasswordDetailsInput> = ({ setPasswordDeta
             <input onChange={(e) => setUsername(e.target.value)} value={userName as string} className="password-details-input" name="username" type="text" />
             <label className="password-details-input-label" htmlFor="password">Password: </label>
             <div className="password-details-input-and-eye-toggler-container">
-                <input onChange={(e) => setPassword(e.target.value)} value={password as string} className="password-details-input" name="password" type={showPassword ? 'text' : 'password'} />
-                <img
-                    alt="Toggle Password Icon"
-                    onClick={() => togglePassword(!showPassword)}
-                    src={showPassword ? OpenEyeIcon : CloseEyeIcon}
-                    className="toggle-eye-icon"
-                />
+                <PasswordInputWithEye onInputChange={(value) => setPassword(value)} className='password-details-input' passwordText={password as string} />
             </div>
             <button onClick={submitData} className={password ? 'password-details-submit-btn' : 'password-details-submit-btn__disabled'}>SUBMIT</button>
         </div>

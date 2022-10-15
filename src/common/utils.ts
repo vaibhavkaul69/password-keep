@@ -1,24 +1,40 @@
 import Crypto from 'crypto-js';
 import { jsPDF } from "jspdf";
 import { IPasswordDetailsPayload } from '../types';
-import { keyToEncyptDecrypt, passwordDetailsStorageKeyName, pdfFileName, storageErrorMessage } from './constants';
+import { keyToEncyptDecrypt, passwordDetailsStorageKeyName, pdfFileName, storageErrorMessage, WhatDetailsToGetType } from './constants';
 
 const jsPDFInstance = new jsPDF();
 
-export const getPasswordDetailsFromLocalStorage = (shouldDecryptPassword: boolean = true): Array<IPasswordDetailsPayload> | null => {
-    let payloadToReturn = [];
-
+export const getDetailsFromLocalStorage = (shouldDecryptPassword: boolean = true) => {
     if (window.localStorage) {
         const getItemFromStorage = JSON.parse(localStorage.getItem(passwordDetailsStorageKeyName) as string);
-        if (getItemFromStorage && getItemFromStorage.length > 0) {
-            payloadToReturn = getItemFromStorage.map((item: IPasswordDetailsPayload) => {
+        let userDetails = null;
+        let passwordDetails = null;
+
+        if (getItemFromStorage?.userDetails) {
+            userDetails = {
+                secretPin: decryptPasswordString(getItemFromStorage.userDetails.secretPin)
+            }
+        } else {
+            userDetails = null;
+        }
+
+        if (getItemFromStorage?.passwordDetails) {
+            passwordDetails = getItemFromStorage.passwordDetails?.map((item: IPasswordDetailsPayload) => {
                 return {
                     accountType: item.accountType,
                     userName: item.userName,
                     password: shouldDecryptPassword ? decryptPasswordString(item.password) : item.password,
                     id: item.id
                 }
-            })
+            });
+        } else {
+            passwordDetails = null;
+        }
+
+        const payloadToReturn = {
+            userDetails: userDetails,
+            passwordDetails: passwordDetails
         }
 
         return payloadToReturn;
@@ -26,22 +42,36 @@ export const getPasswordDetailsFromLocalStorage = (shouldDecryptPassword: boolea
         alert(storageErrorMessage);
         return null;
     }
-
-
-
 }
 
-export const setPasswordDetailsToLocalStorage = (payload: IPasswordDetailsPayload) => {
-    const detailsFromStorage = getPasswordDetailsFromLocalStorage(false);
+export const setDetailsToLocalStorage = ({ newPasswordPayload, userSecretPin = null }: any) => {
+    const detailsFromStorage = getDetailsFromLocalStorage(false);
+    let userDetails = null;
+    let passwordDetails: IPasswordDetailsPayload[] = [];
+    let finalPayload: any = {};
 
-    if (payload && detailsFromStorage) {
-        const encyptedPasswordPayload = { ...payload };
-        encyptedPasswordPayload.password = encryptPasswordString(encyptedPasswordPayload.password);
-        const dataToSet = [...detailsFromStorage, encyptedPasswordPayload];
-        const stringifiedPayload = JSON.stringify(dataToSet);
-
-        return localStorage.setItem(passwordDetailsStorageKeyName, stringifiedPayload);
+    if (detailsFromStorage?.userDetails) {
+        userDetails = {
+            secretPin: encryptPasswordString(detailsFromStorage.userDetails.secretPin)
+        }
+    } else {
+        userDetails = {
+            secretPin: encryptPasswordString(userSecretPin)
+        }
     }
+
+    if (newPasswordPayload) {
+        const encyptedPasswordPayload = { ...newPasswordPayload };
+        encyptedPasswordPayload.password = encryptPasswordString(encyptedPasswordPayload.password);
+        passwordDetails = [...detailsFromStorage?.passwordDetails, encyptedPasswordPayload]
+    }
+
+    finalPayload = {
+        userDetails: userDetails,
+        passwordDetails: passwordDetails
+    }
+
+    return localStorage.setItem(passwordDetailsStorageKeyName, JSON.stringify(finalPayload));
 }
 
 export const encryptPasswordString = (stringToEncrypt: string) => {
@@ -94,7 +124,8 @@ export const generateUniqueUUID = () => {
 };
 
 export const downloadPasswordsAsPDF = () => {
-    const detailsFromStorage = getPasswordDetailsFromLocalStorage(true);
+    const detailsFromStorage = getDetailsFromLocalStorage(true);
+    const passwordDetails = detailsFromStorage?.passwordDetails;
     const valuesToStartFrom = 10;
     const adderValueForPasswordAlongYAxis = 15;
     const adderValueForUsernameAlongYAxis = 5;
@@ -102,9 +133,9 @@ export const downloadPasswordsAsPDF = () => {
     const lengthOfLineSeperator = jsPDFInstance.internal.pageSize.getWidth() - 10;
     const multiplyFactorForPassWordAndUserNameValueAlongXAxis = 3;
 
-    if (detailsFromStorage && detailsFromStorage.length > 0) {
+    if (passwordDetails && passwordDetails.length > 0) {
         let j = 0;
-        for (let i = 0; i < detailsFromStorage.length; i++) {
+        for (let i = 0; i < passwordDetails.length; i++) {
             const yDistance = 20 + i * 40;
             const xDistance = 10;
             const xDistanceForPasswordDetails = 20;
@@ -112,17 +143,17 @@ export const downloadPasswordsAsPDF = () => {
 
             jsPDFInstance.setFontSize(20);
             jsPDFInstance.setFont('Roboto', 'normal', 'bold');
-            jsPDFInstance.text(detailsFromStorage[i].accountType, xDistance, yDistance);
+            jsPDFInstance.text(passwordDetails[i].accountType, xDistance, yDistance);
 
             while (j < 1) {
                 jsPDFInstance.setFontSize(15);
                 jsPDFInstance.setFont('Roboto', 'normal', 400);
 
                 jsPDFInstance.text('Username - ', xDistanceForPasswordDetails, yDistanceForPasswordDetails + adderValueForUsernameAlongYAxis);
-                jsPDFInstance.text(detailsFromStorage[i].userName, xDistanceForPasswordDetails + valuesToStartFrom * multiplyFactorForPassWordAndUserNameValueAlongXAxis, yDistanceForPasswordDetails + adderValueForUsernameAlongYAxis);
+                jsPDFInstance.text(passwordDetails[i].userName, xDistanceForPasswordDetails + valuesToStartFrom * multiplyFactorForPassWordAndUserNameValueAlongXAxis, yDistanceForPasswordDetails + adderValueForUsernameAlongYAxis);
 
                 jsPDFInstance.text('Password - ', xDistanceForPasswordDetails, yDistanceForPasswordDetails + adderValueForPasswordAlongYAxis);
-                jsPDFInstance.text(detailsFromStorage[i].password, xDistanceForPasswordDetails + valuesToStartFrom * multiplyFactorForPassWordAndUserNameValueAlongXAxis, yDistanceForPasswordDetails + adderValueForPasswordAlongYAxis);
+                jsPDFInstance.text(passwordDetails[i].password, xDistanceForPasswordDetails + valuesToStartFrom * multiplyFactorForPassWordAndUserNameValueAlongXAxis, yDistanceForPasswordDetails + adderValueForPasswordAlongYAxis);
                 j++;
             }
 

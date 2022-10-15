@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { AccountTypes } from "./common/constants";
+import { AccountTypes, EyeIconColor } from "./common/constants";
 
 interface IPasswordDetailsPayload {
     accountType: AccountTypes,
@@ -18,7 +18,6 @@ interface IPasswordDetailsInput {
     openPasswordDetailFillForm: Dispatch<SetStateAction<boolean>>;
 }
 
-
 interface IToggleSwitchInterface {
     showPassword: boolean;
     onToggleEyeClick: Dispatch<SetStateAction<boolean>>;
@@ -26,4 +25,11 @@ interface IToggleSwitchInterface {
 
 interface IPasswordDetailsBody {
     allSavedPasswords: Array<IPasswordDetailsPayload>;
+}
+
+interface IPasswordInputWithEyeProps {
+    passwordText: string;
+    className: string;
+    colorOfEyeIcon?: EyeIconColor;
+    onInputChange?: (value: string) => void | Dispatch<SetStateAction<string>>;
 }
