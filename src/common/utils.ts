@@ -64,6 +64,8 @@ export const setDetailsToLocalStorage = ({ newPasswordPayload, userSecretPin = n
         const encyptedPasswordPayload = { ...newPasswordPayload };
         encyptedPasswordPayload.password = encryptPasswordString(encyptedPasswordPayload.password);
         passwordDetails = [...detailsFromStorage?.passwordDetails, encyptedPasswordPayload]
+    } else {
+        passwordDetails = detailsFromStorage?.passwordDetails;
     }
 
     finalPayload = {
@@ -87,6 +89,18 @@ export const decryptPasswordString = (stringToDecrypt: string) => {
     return decryptedData;
 }
 
+export const resetPin = () => {
+    const detailsFromStorage = getDetailsFromLocalStorage();
+    const passwordDetails = detailsFromStorage?.passwordDetails;
+    const payload = {
+        passwordDetails: passwordDetails,
+        userDetails: {
+            secretPin: ''
+        }
+    }
+
+    localStorage.setItem(passwordDetailsStorageKeyName, JSON.stringify(payload));
+}
 
 /**
 A function that returns a universally unique identifier (uuid).  

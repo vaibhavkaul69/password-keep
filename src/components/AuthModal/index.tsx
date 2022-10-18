@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CloseIcon from '../../assets/close_icon.png';
-import { action_authenticateUser, action_closeAuthenticationModal } from '../../redux/actions';
+import { action_authenticateUser, action_closeAuthenticationModal, action_setAuthenticationPassword } from '../../redux/actions';
 import SecurityGuard from '../../assets/security_guard.jpeg';
 import PasswordInputWithEye from '../TogglePasswordEyeInput';
-import { setDetailsToLocalStorage } from '../../common/utils';
+import { resetPin, setDetailsToLocalStorage } from '../../common/utils';
 
 const AuthModal = () => {
     const { isAuthModalOpen, userAuthenticationPassword } = useSelector((initialState: any) => ({
@@ -25,9 +25,20 @@ const AuthModal = () => {
                 setSecretPin('');
             }
         } else {
-            setDetailsToLocalStorage({ newPasswordPayload: null, userSecretPin: secretPin });
-            dispatch(action_authenticateUser(true));
+            if (secretPin === confirmSecretPin) {
+                setDetailsToLocalStorage({ newPasswordPayload: null, userSecretPin: secretPin });
+                dispatch(action_authenticateUser(true));
+            } else {
+                alert('Pins do not match. Try Again.!')
+            }
+
         }
+    }
+
+    const resetAuthPin = () => {
+        resetPin();
+        dispatch(action_authenticateUser(false));
+        dispatch(action_setAuthenticationPassword(''));
     }
 
     const renderLableWithInput = (labelText: string, uniqueIdentifier: string, stateSetterFunction: any, inputValue: string, subtitleText: string) => {
@@ -55,6 +66,7 @@ const AuthModal = () => {
         return (
             <div className="auth_modal_body__input_container">
                 {renderLableWithInput('Enter Secret Pin', 'mainPassword', setSecretPin, secretPin, 'Enter your 4 digit numeric pin to access passwords')}
+                <p onClick={resetAuthPin} className="auth_modal_body__reset-pin-text">Reset Pin</p>
             </div>
         );
     }
