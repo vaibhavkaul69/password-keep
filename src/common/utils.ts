@@ -90,7 +90,7 @@ export const decryptPasswordString = (stringToDecrypt: string) => {
 }
 
 export const resetPin = () => {
-    const detailsFromStorage = getDetailsFromLocalStorage();
+    const detailsFromStorage = JSON.parse(localStorage.getItem(passwordDetailsStorageKeyName) as string);
     const passwordDetails = detailsFromStorage?.passwordDetails;
     const payload = {
         passwordDetails: passwordDetails,
